@@ -1,5 +1,3 @@
-Yes. Since this is going on your GitHub portfolio, it should read like documentation written by a junior cloud engineer. It should explain the business problem, architecture, implementation, what you learned, and what comes next. It should also accurately reflect that Week 2 is the **development phase** of Project 1, not the completed project.
-
 ---
 
 # Week 2 – Project 1 Development
