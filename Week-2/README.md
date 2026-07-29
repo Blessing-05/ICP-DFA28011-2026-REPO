@@ -1,232 +1,377 @@
-# Week 2 – AWS Cloud Computing Internship Progress Report
-
-## Secure AWS VPC Network Architecture with Terraform
-
-## Overview
-
-During Week 2 of the InternCareerPath Cloud Computing Internship Program, I focused on designing a secure and scalable Amazon Web Services (AWS) networking environment using Terraform. This project strengthened my understanding of Infrastructure as Code (IaC), AWS networking fundamentals, and secure cloud architecture by translating AWS networking concepts into reusable Terraform configurations.
-
-Rather than manually provisioning infrastructure through the AWS Management Console, I used Terraform to define infrastructure as code, making deployments more consistent, repeatable, and easier to maintain. This experience reinforced the importance of automation in modern cloud engineering and demonstrated how Infrastructure as Code improves scalability, reduces configuration errors, and supports collaborative development.
+Yes. Since this is going on your GitHub portfolio, it should read like documentation written by a junior cloud engineer. It should explain the business problem, architecture, implementation, what you learned, and what comes next. It should also accurately reflect that Week 2 is the **development phase** of Project 1, not the completed project.
 
 ---
 
-# Project Objective
+# Week 2 – Project 1 Development
 
-The objective of this project was to design a production-style Virtual Private Cloud (VPC) environment that follows AWS networking and security best practices. The infrastructure was planned to provide secure communication between cloud resources while separating publicly accessible services from private internal resources.
+# Secure AWS VPC Network Architecture with Terraform
 
-The project also served as practical experience in cloud infrastructure automation, resource dependency management, and secure network design using Terraform.
+> **InternCareerPath Cloud Computing Internship Program**
 
 ---
 
-# Project Architecture
+# Overview
 
-The infrastructure design consisted of the following AWS resources:
+During Week 2 of the InternCareerPath Cloud Computing Internship Program, I focused on developing a secure and scalable Virtual Private Cloud (VPC) architecture on Amazon Web Services (AWS) using Terraform.
 
-* Amazon Virtual Private Cloud (VPC)
-* Public Subnet
-* Private Subnet
-* Internet Gateway
-* NAT Gateway
-* Route Tables
-* Route Table Associations
-* Security Groups
-* Amazon EC2 integration (planned)
+The primary objective of this project was to strengthen my practical understanding of AWS networking by automating cloud infrastructure using Infrastructure as Code (IaC). Instead of manually provisioning networking resources through the AWS Management Console, I used Terraform to define the infrastructure in code, making deployments repeatable, consistent, and easier to manage.
 
-The architecture followed a layered network design where internet-facing resources are isolated from backend services to improve security and availability.
+This project introduced me to designing cloud networking environments similar to those used in production systems. I gained practical experience configuring networking resources, understanding resource dependencies, implementing security controls, and organizing Terraform projects using a modular structure.
+
+---
+
+# Business Problem
+
+Organizations deploying applications to the cloud require a secure and reliable networking environment that isolates workloads, protects sensitive resources, and supports future scalability.
+
+Manually creating cloud infrastructure can introduce configuration inconsistencies, deployment errors, and operational inefficiencies. Infrastructure as Code solves these challenges by allowing infrastructure to be defined, version-controlled, and deployed consistently across environments.
+
+This project addresses these challenges by implementing a secure AWS networking environment through Terraform automation.
+
+---
+
+# Project Objectives
+
+The objectives of this project were to:
+
+* Develop a secure AWS networking environment.
+* Gain practical experience using Terraform.
+* Understand Infrastructure as Code principles.
+* Learn how AWS networking services interact.
+* Build reusable cloud infrastructure.
+* Apply AWS networking best practices.
+* Strengthen cloud security knowledge.
+
+---
+
+# Technologies Used
+
+### Cloud Platform
+
+* Amazon Web Services (AWS)
+
+### Infrastructure as Code
+
+* Terraform
+
+### Development Tools
+
+* Visual Studio Code
+* Git
+* GitHub
 
 ---
 
 # AWS Services Used
 
-## Amazon VPC
+The following AWS services were implemented during this project.
 
-Amazon VPC served as the foundation of the infrastructure by creating a logically isolated virtual network within AWS. It provided complete control over IP addressing, subnet creation, routing, and network security.
+## Amazon Virtual Private Cloud (Amazon VPC)
 
-Through this project, I gained practical experience in:
+Amazon VPC provides an isolated virtual network where AWS resources can be securely deployed.
 
-* CIDR block planning
-* Network segmentation
-* Resource isolation
-* Virtual networking concepts
+Within this project, the VPC serves as the networking foundation by providing:
 
----
-
-## Public Subnet
-
-The public subnet was designed for resources that require internet access, such as web servers or load balancers.
-
-Key configuration considerations included:
-
-* Association with a public route table
-* Internet Gateway connectivity
-* Automatic public IP assignment where appropriate
-
-This helped me understand how AWS routes external traffic to publicly accessible resources.
+* Logical network isolation
+* Custom IP addressing
+* Secure communication
+* Resource segmentation
 
 ---
 
-## Private Subnet
+## Public Subnets
 
-The private subnet was designed for internal resources that should remain inaccessible from the public internet.
+Public subnets are designed for resources that require direct internet connectivity.
 
-Resources intended for this subnet include:
+Examples include:
 
-* Application servers
-* Backend services
+* Web Servers
+* Bastion Hosts
+* Application Load Balancers
+
+Public subnets communicate with the internet through an Internet Gateway.
+
+---
+
+## Private Subnets
+
+Private subnets are intended for resources that should remain inaccessible from the internet.
+
+Examples include:
+
 * Databases
+* Internal APIs
+* Backend Application Servers
 
-Designing the private subnet reinforced the principle of minimizing the attack surface by keeping sensitive workloads isolated.
+Using private subnets improves security by reducing exposure to external threats.
 
 ---
 
 ## Internet Gateway
 
-An Internet Gateway was incorporated to enable communication between public subnet resources and the internet.
+The Internet Gateway enables communication between resources inside the VPC and the public internet.
 
-I learned how route tables determine which subnet traffic is directed through the Internet Gateway and how this configuration enables secure internet connectivity for public-facing resources.
+This component allows internet-facing workloads to receive incoming requests and access external services.
 
 ---
 
 ## NAT Gateway
 
-The NAT Gateway was included in the network design to allow instances within the private subnet to access the internet for software updates, package installations, and other outbound requests without exposing those instances to inbound internet traffic.
+The NAT Gateway enables resources inside private subnets to access the internet without allowing unsolicited inbound connections.
 
-This improved my understanding of secure outbound connectivity and network isolation.
+This is commonly used for:
+
+* Installing software updates
+* Downloading application packages
+* Accessing AWS service endpoints
 
 ---
 
 ## Route Tables
 
-Separate route tables were planned to manage traffic for public and private subnets.
+Route Tables define how network traffic flows inside the VPC.
 
-The public route table directed internet-bound traffic through the Internet Gateway, while the private route table directed outbound traffic through the NAT Gateway.
+Different route tables were configured to manage:
 
-This demonstrated how AWS routing controls communication within cloud environments.
+* Public subnet routing
+* Private subnet routing
+* Internet connectivity
+* Internal communication
 
 ---
 
 ## Security Groups
 
-Security Groups were configured as virtual firewalls to control inbound and outbound traffic.
+Security Groups act as virtual firewalls for AWS resources.
 
-The security strategy emphasized the principle of least privilege by allowing only required network traffic.
+The project implemented Security Groups to control inbound and outbound network traffic while following the Principle of Least Privilege.
 
-Examples of controlled access included:
+Example rules included:
 
-* SSH (Port 22) for administrative access
-* HTTP (Port 80) for web traffic
-* HTTPS (Port 443) for secure communication
-
-This strengthened my understanding of cloud security and secure network access control.
+* SSH (TCP 22)
+* HTTP (TCP 80)
+* HTTPS (TCP 443)
 
 ---
 
-# Infrastructure as Code with Terraform
+# Infrastructure as Code
 
-Terraform was used to automate the provisioning of AWS resources.
+Terraform was used to automate the deployment of all networking resources.
 
-Instead of manually creating infrastructure, each resource was defined using declarative configuration files.
+Instead of manually configuring services through the AWS Console, every resource was defined within Terraform configuration files.
 
-This approach provided several benefits:
+Infrastructure as Code provides several benefits:
 
-* Consistent infrastructure deployment
-* Reduced manual configuration errors
-* Version-controlled infrastructure
-* Reusable and maintainable configurations
-* Simplified infrastructure updates
-
-Throughout this project, I improved my understanding of Terraform resource blocks, variables, outputs, dependencies, and execution workflow.
+* Faster deployments
+* Consistent environments
+* Version control
+* Easier maintenance
+* Reduced human error
 
 ---
 
 # Terraform Project Structure
 
 ```text
-secure-aws-vpc/
+Week2/
 ├── provider.tf
-├── versions.tf
-├── main.tf
-├── variables.tf
-├── terraform.tfvars
+├── vpc.tf
+├── subnets.tf
+├── internet_gateway.tf
+├── nat_gateway.tf
+├── route_tables.tf
+├── security_groups.tf
 ├── outputs.tf
 └── README.md
 ```
 
-Each file served a specific purpose:
+---
 
-* **provider.tf** – Configured the AWS provider.
-* **versions.tf** – Defined Terraform version requirements.
-* **main.tf** – Contained the core infrastructure resources.
-* **variables.tf** – Declared reusable input variables.
-* **terraform.tfvars** – Stored variable values.
-* **outputs.tf** – Displayed useful deployment outputs after provisioning.
+# Terraform File Overview
+
+## provider.tf
+
+Configured the AWS provider, deployment region, and default resource tags.
 
 ---
 
-# Technical Skills Strengthened
+## vpc.tf
 
-Throughout this project, I strengthened my knowledge in:
+Created the Virtual Private Cloud and established the networking foundation.
+
+---
+
+## subnets.tf
+
+Provisioned public and private subnets across Availability Zones.
+
+---
+
+## internet_gateway.tf
+
+Configured internet access for resources deployed within the public subnet.
+
+---
+
+## nat_gateway.tf
+
+Enabled secure outbound internet access for workloads deployed inside private subnets.
+
+---
+
+## route_tables.tf
+
+Configured routing rules for internet access and internal communication.
+
+---
+
+## security_groups.tf
+
+Implemented firewall rules to protect AWS resources.
+
+---
+
+## outputs.tf
+
+Displayed important deployment information after Terraform successfully provisioned the infrastructure.
+
+---
+
+# Development Process
+
+The project followed a structured Infrastructure as Code workflow.
+
+### Phase 1 — Planning
+
+* Reviewed AWS networking concepts.
+* Planned the network architecture.
+* Selected Terraform as the deployment tool.
+
+---
+
+### Phase 2 — Infrastructure Development
+
+* Configured the AWS provider.
+* Created the VPC.
+* Created public and private subnets.
+* Configured Internet Gateway.
+* Configured NAT Gateway.
+* Created Route Tables.
+* Implemented Security Groups.
+
+---
+
+### Phase 3 — Validation
+
+* Validated Terraform syntax.
+* Reviewed the Terraform execution plan.
+* Verified resource dependencies.
+
+---
+
+# Skills Strengthened
+
+This project strengthened practical experience in:
 
 * Amazon Web Services (AWS)
 * Amazon VPC
 * Cloud Networking
-* Infrastructure as Code (IaC)
+* Infrastructure as Code
 * Terraform
 * Cloud Security
-* Network Segmentation
-* CIDR Planning
 * Route Tables
-* Security Groups
-* Internet Gateway
 * NAT Gateway
+* Internet Gateway
+* Security Groups
 * Git
 * GitHub
-* Visual Studio Code
-
----
-
-# Key Learning Outcomes
-
-This project significantly improved my understanding of cloud infrastructure design and automation.
-
-Some of the most valuable lessons included:
-
-* Designing secure AWS network architectures using industry best practices.
-* Understanding how AWS networking components interact to create scalable cloud environments.
-* Translating AWS Console configurations into Terraform code.
-* Recognizing resource dependencies and deployment order within Terraform.
-* Applying cloud security principles through subnet isolation and controlled network access.
-* Appreciating the value of Infrastructure as Code in creating repeatable and maintainable cloud environments.
 
 ---
 
 # Challenges Encountered
 
-One of the primary challenges was understanding how individual AWS networking components depend on one another.
+One of the primary challenges was understanding how AWS networking components depend on one another during deployment.
 
-Learning how VPCs, subnets, gateways, route tables, and security groups work together required careful study and practical experimentation. Breaking the architecture into smaller components and reviewing AWS documentation helped me develop a clearer understanding of the relationships between these services.
+Initially, it was difficult to understand how resources such as Internet Gateways, Route Tables, NAT Gateways, and Subnets communicate within a VPC.
 
-Another challenge involved translating conceptual AWS networking knowledge into Terraform configurations. This experience improved my ability to think systematically about infrastructure design rather than focusing solely on individual resources.
+By studying AWS networking documentation and building the infrastructure incrementally with Terraform, I developed a better understanding of cloud networking architecture and infrastructure dependencies.
+
+---
+
+# Key Learning Outcomes
+
+Throughout this project, I gained practical knowledge of:
+
+* Designing secure AWS network architectures.
+* Automating infrastructure deployment with Terraform.
+* Structuring Infrastructure as Code projects.
+* Managing AWS networking resources.
+* Applying cloud security best practices.
+* Understanding Terraform resource dependencies.
+* Building reusable cloud infrastructure.
+
+---
+
+# Current Progress
+
+At the conclusion of Week 2:
+
+* AWS networking resources were developed using Terraform.
+* Infrastructure components were organized using a modular file structure.
+* Terraform configurations were validated.
+* Documentation was updated to reflect project progress.
+
+The project is now prepared for final testing, security hardening, deployment validation, and architecture documentation during Week 3.
 
 ---
 
 # Next Steps
 
-The next phase of this project will include:
+The next phase of the project will focus on:
 
-* Completing the Terraform deployment.
-* Validating the infrastructure using Terraform plan and apply.
-* Integrating Amazon EC2 within the VPC.
-* Testing network connectivity between public and private resources.
-* Adding architecture diagrams and deployment screenshots.
-* Enhancing the project documentation with implementation details and lessons learned.
+* Completing infrastructure deployment.
+* Performing end-to-end testing.
+* Reviewing and improving security configurations.
+* Creating an AWS architecture diagram.
+* Capturing deployment screenshots.
+* Finalizing technical documentation.
+* Publishing the completed project to GitHub.
 
 ---
 
-## Repository
+# Repository Structure
 
-**GitHub Repository:**
-Cloud Computing Internship Portfolio
+```text
+ICP-DFA28011-2026-REPO/
+│
+├── Week1/
+│   └── README.md
+│
+├── Week2/
+│   ├── README.md
+│   ├── provider.tf
+│   ├── vpc.tf
+│   ├── subnets.tf
+│   ├── internet_gateway.tf
+│   ├── nat_gateway.tf
+│   ├── route_tables.tf
+│   ├── security_groups.tf
+│   └── outputs.tf
+│
+└── Week3/
+    └── README.md
+```
 
-**Repository URL:**
-https://github.com/Blessing-05/ICP-DFA28011-2026-REPO
+---
+
+# About This Internship
+
+This project was completed as part of the **InternCareerPath Cloud Computing Internship Program**, where I am building hands-on experience in AWS, Terraform, Infrastructure as Code (IaC), cloud networking, and cloud security through practical, real-world projects.
+
+---
+
+**Author:** Blessing Mbanefoh
+**Role:** Cloud Computing Intern
+**Focus Areas:** AWS • Terraform • Cloud Security • Infrastructure as Code (IaC) • Cloud Networking
+
+
