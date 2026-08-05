@@ -2,6 +2,9 @@
 **/.terraform/
 *.tfstate
 *.tfstate.*
+*.terraform.lock.hcl
+*.tfvars
+*.tfvars.json
 crash.log
 
 # Optional: Ignore Terraform plan files
